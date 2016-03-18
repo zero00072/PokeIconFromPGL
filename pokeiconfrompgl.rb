@@ -40,7 +40,7 @@ class PokeIconHelper
       681 => 2,
       710 => 4,
       711 => 4,
-      720 => 2,
+      720 => 2
     }
     @curl = Curl::Easy.new
     @curl.ssl_verify_peer = false
@@ -86,6 +86,5 @@ pokeh = PokeIconHelper.new
   forms = pokeh.spmons.include?(monsno) ? pokeh.spmons[monsno] : 1
   forms.times do |formno|
     pokeh.download(monsno, formno)
-    sleep 1
   end
 end
