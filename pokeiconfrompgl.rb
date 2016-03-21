@@ -8,41 +8,6 @@ class PokeIconHelper
 
   def initialize
     @url = Curl::Easy.http_get("http://3ds.pokemon-gl.com/share/js/path/3ds.js").body_str.scan(/cmsUploads:"(.*)"/)[0][0]
-    @spmons = {
-      25  => 7,
-      201 => 28,
-      351 => 4,
-      386 => 4,
-      412 => 3,
-      413 => 3,
-      422 => 2,
-      423 => 2,
-      479 => 6,
-      487 => 2,
-      492 => 2,
-      493 => 18,
-      550 => 2,
-      555 => 2,
-      585 => 4,
-      586 => 4,
-      641 => 2,
-      642 => 2,
-      645 => 2,
-      646 => 3,
-      647 => 2,
-      648 => 2,
-      649 => 5,
-      666 => 20,
-      669 => 5,
-      670 => 6,
-      671 => 5,
-      676 => 10,
-      678 => 2,
-      681 => 2,
-      710 => 4,
-      711 => 4,
-      720 => 2
-    }
     @curl = Curl::Easy.new
     @curl.ssl_verify_peer = false
   end
@@ -68,24 +33,46 @@ class PokeIconHelper
     newname = formno > 0 ? "%03d-%02d.png" % [monsno, formno] : "%03d.png" % monsno
 
     unless File.exist?(newname)
-      puts "Downloading #{newname}..."
       size = 300
       @curl.url = @url + "/share/images/pokemon/#{size}/#{code}.png"
       @curl.perform
 
       f = File.new(newname, "w+")
       f.puts @curl.body_str
-      f.close
 
-      convert(newname)
+      if f.size < 308
+        f.close
+        File.delete(newname)
+        return false
+      else
+        f.close
+        puts "Downloading #{newname}..."
+        convert(newname)
+      end
     end
+
+    true
   end
 end
 
 pokeh = PokeIconHelper.new
-1.upto(721) do |monsno|
-  forms = pokeh.spmons.include?(monsno) ? pokeh.spmons[monsno] : 1
-  forms.times do |formno|
-    pokeh.download(monsno, formno)
+monsno = 1
+fails = 0
+
+loop do
+  formno = 0
+
+  loop do
+    if pokeh.download(monsno, formno)
+      fails = 0
+    else
+      fails += 1
+      break
+    end
+
+    formno += 1
   end
+
+  break if fails > 1
+  monsno += 1
 end
