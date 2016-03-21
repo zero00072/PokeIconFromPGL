@@ -4,8 +4,6 @@ require 'rmagick'
 include Magick
 
 class PokeIconHelper
-  attr_reader :spmons
-
   def initialize
     @url = Curl::Easy.http_get("http://3ds.pokemon-gl.com/share/js/path/3ds.js").body_str.scan(/cmsUploads:"(.*)"/)[0][0]
     @curl = Curl::Easy.new
