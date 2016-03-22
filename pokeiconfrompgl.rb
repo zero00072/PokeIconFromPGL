@@ -57,7 +57,7 @@ pokeh = PokeIconHelper.new
 monsno = 1
 fails = 0
 
-loop do
+until fails > 1 do
   formno = 0
 
   loop do
@@ -71,6 +71,5 @@ loop do
     formno += 1
   end
 
-  break if fails > 1
   monsno += 1
 end
