@@ -28,7 +28,7 @@ class PokeIconHelper
 
   def download(monsno, formno)
     code = (0x1000000 | (monsno * 0x9a55e5 + formno * 0xe50000) & 0xffffff).to_s(16)[1..-1]
-    newname = formno > 0 ? "%03d-%02d.png" % [monsno, formno] : "%03d.png" % monsno
+    newname = "%03d-%02d.png" % [monsno, formno]
 
     unless File.exist?(newname)
       size = 300
