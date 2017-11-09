@@ -25,6 +25,7 @@ class PokeIconHelper
     image.crop!(size / 2, size / 2, size, size)
     image.page = Rectangle.new(size / 2, size / 2, 0, 0)
     image.write(imagename)
+    image.destroy!
   end
 
   def download(monsno, formno)
