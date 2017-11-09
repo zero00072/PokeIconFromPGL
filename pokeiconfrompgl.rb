@@ -23,6 +23,7 @@ class PokeIconHelper
     end
 
     image.crop!(size / 2, size / 2, size, size)
+    image.page = Rectangle.new(size / 2, size / 2, 0, 0)
     image.write(imagename)
   end
 
