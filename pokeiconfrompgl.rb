@@ -5,7 +5,7 @@ include Magick
 
 class PokeIconHelper
   def initialize
-    @url = Curl::Easy.http_get("http://3ds.pokemon-gl.com/share/js/path/3ds.js").body_str.scan(/cmsUploads:"(.*)"/)[0][0]
+    @url = Curl::Easy.http_get("https://3ds.pokemon-gl.com/share/js/path/3ds.js").body_str.scan(/cmsUploads:"(.*)"/)[0][0]
     @curl = Curl::Easy.new
     @curl.ssl_version = 6
   end
