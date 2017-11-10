@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require 'curb'
-require 'rmagick'
+require "curb"
+require "rmagick"
 include Magick
 
 class PokeIconHelper
